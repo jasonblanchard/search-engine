@@ -1,12 +1,17 @@
 require 'open-uri'
 
 class Crawler
-
-    @@to_search = []
-    @@searched = []
+    attr_accessor :to_crawl
 
     def initialize(seed)
         @seed = seed
+        @to_crawl = []
+        @crawled = []
+    end
+
+    def crawl
+        seed_page = WebPage.new(@seed)
+        @to_crawl = @to_crawl + LinkParser.new(seed_page.contents,seed_page.host).get_links
     end
 
 end
