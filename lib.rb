@@ -70,7 +70,7 @@ class LinkParser
 end
 
 class WebPage
-    attr_accessor :contents, :host
+    attr_accessor :contents, :host, :uri
 
     def initialize(uri)
         @uri = uri
@@ -82,7 +82,7 @@ end
 
 class KeywordParser
     def initialize(uri)
-        @content = Nokogiri::HTML(open('http://www.nytimes.com/'))
+        @content = Nokogiri::HTML(open(uri))
         @parsed_content = parse_content
     end
 
@@ -93,7 +93,7 @@ class KeywordParser
 
     private
     def parse_content
-        get_tag('p')
+        get_tag('p') + get_tag('h1') + get_tag('h2') + get_tag('a') + get_tag('li')
     end
 
     def get_tag(tag)
